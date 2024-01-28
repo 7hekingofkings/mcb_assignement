@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{916C6175-B6D7-464B-9BD0-ADA6FC7866AC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>csNetMcbAssignment</RootNamespace>
+    <RootNamespace>mcb.main</RootNamespace>
     <AssemblyName>csNetMcbAssignment</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -34,7 +34,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.8.0.0\lib\net462\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +53,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\clsEmbeddedResources.cs" />
+    <Compile Include="Common\clsInfoExceptions.cs" />
+    <Compile Include="Common\clsStringFormatting.cs" />
+    <Compile Include="Constants\clsConstants.cs" />
+    <Compile Include="Constants\clsSettingConstants.cs" />
+    <Compile Include="Forms\frmConfiguration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmConfiguration.Designer.cs">
+      <DependentUpon>frmConfiguration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmDatabaseConnection.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,8 +76,21 @@
     <Compile Include="Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Common\clsConfiguration.cs" />
+    <Compile Include="Common\clsConnection.cs" />
+    <Compile Include="Common\clsConnectionConfiguration.cs" />
+    <Compile Include="Common\clsConnectionSection.cs" />
+    <Compile Include="Common\clsSecureString.cs" />
+    <Compile Include="Common\clsSQLConnectionStringBuilder.cs" />
+    <Compile Include="Common\clsTripleDESCryptography.cs" />
+    <Compile Include="Logic\clsSettingLogic.cs" />
+    <Compile Include="Model\clsSettingModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utlilities\clsScripts.cs" />
+    <EmbeddedResource Include="Forms\frmConfiguration.resx">
+      <DependentUpon>frmConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDatabaseConnection.resx">
       <DependentUpon>frmDatabaseConnection.cs</DependentUpon>
     </EmbeddedResource>
@@ -74,7 +105,9 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -89,11 +122,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Scripts\StoredProcedures\" />
+    <Content Include="Scripts\StoredProcedures\spCountry.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\UpdateScripts\udCreateWDICountryTable.sql" />
     <EmbeddedResource Include="Scripts\UpdateScripts\udCreateWDISeriesTable.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\UpdateScripts\udCreateSettingTable.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\StoredProcedures\spSetting.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
