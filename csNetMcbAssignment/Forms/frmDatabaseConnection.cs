@@ -259,6 +259,73 @@ namespace csNetMcbAssignment.Forms
                                                                              sSQL_DELIMITER_GO_SPACE,
                                                                              sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
 
+                lstStoredProcedures.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iSP_COUNTRY)
+                                                       .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                             sSQL_DELIMITER_GO_SPACE,
+                                                                             sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+                lstStoredProcedures.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iSP_SERIES)
+                                                       .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                             sSQL_DELIMITER_GO_SPACE,
+                                                                             sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+                lstTables.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iUD_CREATE_WDI_COUNTRY_SERIES_TABLE)
+                                             .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                   sSQL_DELIMITER_GO_SPACE,
+                                                                   sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+                lstStoredProcedures.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iSP_COUNTRY_SERIES)
+                                                      .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                             sSQL_DELIMITER_GO_SPACE,
+                                                                             sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+                lstTables.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iUD_CREATE_WDI_PERIOD)
+                                             .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                   sSQL_DELIMITER_GO_SPACE,
+                                                                   sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+                lstTables.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iUD_CREATE_WDI_TIME_SERIES)
+                                             .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                   sSQL_DELIMITER_GO_SPACE,
+                                                                   sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+                lstStoredProcedures.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iSP_TIME_SERIES)
+                                                       .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                             sSQL_DELIMITER_GO_SPACE,
+                                                                             sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+                lstTables.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iUD_CREATE_WDI_FOOT_NOTE)
+                                             .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                   sSQL_DELIMITER_GO_SPACE,
+                                                                   sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+                lstStoredProcedures.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iTT_FOOT_NOTE)
+                                                       .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                             sSQL_DELIMITER_GO_SPACE,
+                                                                             sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+                lstStoredProcedures.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iSP_FOOT_NOTE)
+                                                       .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                             sSQL_DELIMITER_GO_SPACE,
+                                                                             sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+                lstTables.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iUD_CREATE_WDI_DATA)
+                                             .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                   sSQL_DELIMITER_GO_SPACE,
+                                                                   sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+
+                lstStoredProcedures.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iTT_DATA)
+                                                       .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                             sSQL_DELIMITER_GO_SPACE,
+                                                                             sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+
+                lstStoredProcedures.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iSP_DATA)
+                                                       .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                             sSQL_DELIMITER_GO_SPACE,
+                                                                             sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
                 objConnection.OpenConnection();
                 objConnection.BeginTransaction();
 
@@ -305,7 +372,6 @@ namespace csNetMcbAssignment.Forms
             }
         }
     
-
         #endregion
 
         #region Events

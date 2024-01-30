@@ -4,6 +4,10 @@ using csNetMcbAssignment.Forms;
 using System;
 using System.Windows.Forms;
 using mcb.main.Forms;
+using mcb.main.Logic;
+using mcb.main.Model;
+using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Messaging;
 
 namespace csNetMcbAssignment
 {
@@ -15,7 +19,8 @@ namespace csNetMcbAssignment
         #region Variables
 
         private clsConnection objConnection = null;
-
+        private clsImportData objImportData = null;
+        private delegate void UpdateEvents(object sender, clsMessageEventsArgs e);
         #endregion
 
         #endregion
@@ -27,6 +32,7 @@ namespace csNetMcbAssignment
         {
             InitializeComponent();
             objConnection = new clsConnection();
+            objImportData = new clsImportData();
         }
 
         #endregion
@@ -109,6 +115,9 @@ namespace csNetMcbAssignment
                     CloseApplication();
                     return;
                 }
+
+                objImportData.objConnection = objConnection;
+                objImportData.evLogEvent += objImport_evLogEvent;
             }
             finally
             {
@@ -139,7 +148,35 @@ namespace csNetMcbAssignment
             objFmConfiguration.ShowDialog();
         }
 
+        /// <summary>Update logs.</summary>
+        /// <param name="sender">Object referece.</param>
+        /// <param name="e">Event data.</param>
+        private void objImport_evLogEvent(object sender, clsMessageEventsArgs e)
+        {
+            if(listBox1.InvokeRequired)
+            {
+                new UpdateEvents(objImport_evLogEvent).Invoke(this,e);
+            }
+            else
+            {
+                listBox1.Items.Add(string.Format("{0} {1}    {2}"
+                                  , e.dtEventDateTime.ToShortDateString()
+                                  , e.dtEventDateTime.ToShortTimeString()
+                                  , e.sMessage));
+            }
+        }
+
+        /// <summary>Import now clicked.</summary>
+        /// <param name="sender">Object reference.</param>
+        /// <param name="e">Event data.</param>
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (!objImportData.fExecuting)
+                objImportData.ExecuteImport();
+        }
+
         #endregion
+
 
     }
 }

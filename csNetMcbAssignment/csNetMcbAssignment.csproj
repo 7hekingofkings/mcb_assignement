@@ -14,7 +14,7 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -57,7 +58,13 @@
     <Compile Include="Common\clsInfoExceptions.cs" />
     <Compile Include="Common\clsStringFormatting.cs" />
     <Compile Include="Constants\clsConstants.cs" />
+    <Compile Include="Constants\clsCountryConstants.cs" />
+    <Compile Include="Constants\clsCountrySeriesConstants.cs" />
+    <Compile Include="Constants\clsDataConstants.cs" />
+    <Compile Include="Constants\clsFootNoteConstants.cs" />
+    <Compile Include="Constants\clsSeriesConstants.cs" />
     <Compile Include="Constants\clsSettingConstants.cs" />
+    <Compile Include="Constants\clsTimeSeriesConstants.cs" />
     <Compile Include="Forms\frmConfiguration.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,10 +90,26 @@
     <Compile Include="Common\clsSecureString.cs" />
     <Compile Include="Common\clsSQLConnectionStringBuilder.cs" />
     <Compile Include="Common\clsTripleDESCryptography.cs" />
+    <Compile Include="Logic\clsCountryLogic.cs" />
+    <Compile Include="Logic\clsCountrySeriesLogic.cs" />
+    <Compile Include="Logic\clsDataLogic.cs" />
+    <Compile Include="Logic\clsFootNoteLogic.cs" />
+    <Compile Include="Logic\clsImportData.cs" />
+    <Compile Include="Logic\clsSeriesLogic.cs" />
     <Compile Include="Logic\clsSettingLogic.cs" />
+    <Compile Include="Logic\clsTimeSeriesLogic.cs" />
+    <Compile Include="Model\clsCountryModel.cs" />
+    <Compile Include="Model\clsCountrySeriesModel.cs" />
+    <Compile Include="Model\clsMessageEventsArgs.cs" />
+    <Compile Include="Model\clsSeriesModel.cs" />
     <Compile Include="Model\clsSettingModel.cs" />
+    <Compile Include="Model\clsTimeSeriesModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Scripts\UpdateScripts\udCreateWDICountrySeriesTable.sql" />
+    <EmbeddedResource Include="Scripts\StoredProcedures\spData.sql" />
+    <EmbeddedResource Include="Scripts\StoredProcedures\ttWDIData.sql" />
+    <Content Include="Scripts\UpdateScripts\udCreateWDIDataTable.sql" />
     <Compile Include="Utlilities\clsScripts.cs" />
     <EmbeddedResource Include="Forms\frmConfiguration.resx">
       <DependentUpon>frmConfiguration.cs</DependentUpon>
@@ -123,6 +146,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\StoredProcedures\spCountry.sql" />
+    <EmbeddedResource Include="Scripts\StoredProcedures\ttFootNote.sql" />
+    <EmbeddedResource Include="Scripts\StoredProcedures\spFootNote.sql" />
+    <EmbeddedResource Include="Scripts\StoredProcedures\spCountrySeries.sql" />
+    <EmbeddedResource Include="Scripts\StoredProcedures\spSeries.sql" />
+    <EmbeddedResource Include="Scripts\StoredProcedures\spTimeSeries.sql" />
+    <EmbeddedResource Include="Scripts\UpdateScripts\udCreateWDIFootNoteTable.sql" />
+    <EmbeddedResource Include="Scripts\UpdateScripts\udCreateWDIPeriodTable.sql" />
+    <EmbeddedResource Include="Scripts\UpdateScripts\udCreateWDITimeSeries.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\UpdateScripts\udCreateWDICountryTable.sql" />

@@ -51,69 +51,76 @@ AS
 BEGIN TRY
 	SET NOCOUNT ON
 
-	INSERT INTO tblWDI_COUNTRY
-	( COUNTRY_CODE                       
-    , SHORT_NAME                      
-    , TABLE_NAME                      
-    , LONG_NAME                       
-    , ALPHA_CODE                      
-    , CURRENCY_UNIT                   
-    , SPECIAL_NOTES                   
-    , REGION                          
-    , INCOME_GROUP                    
-    , WB_CODE                         
-    , NATIONAL_ACCOUNT_BASE_YEAR      
-    , NATIONAL_ACCOUNT_REFE_YEAR      
-    , SNA_PRICE_VALUATION             
-    , LENDING_CATEGORY                
-    , OTHER_GROUPS                    
-    , NATIONAL_ACCOUNTS               
-    , CONVERSION_FACTOR               
-    , PPP_SURVEY_YEAR                 
-    , BALANCE_PAYMENT_MANUAL          
-    , EXTERNAL_DEBT_STATUS            
-    , SYSTEM_TRADE                    
-    , ACCOUNTING_CONCEPT              
-    , IMF_DATA                        
-    , POPULATION_SENSUS               
-    , HOUSEHOLD_SURVEY                
-    , INCOME_EXPENDITURE_DATA         
-    , REGISTRATION_COMPLETE          
-    , AGRICULTURAL_CENSUS             
-    , INDUSTRIAL_DATA                 
-    , TRADE_DATA )
-	VALUES 
-	( @COUNTRY_CODE                       
-    , @SHORT_NAME                      
-    , @TABLE_NAME                      
-    , @LONG_NAME                       
-    , @ALPHA_CODE                      
-    , @CURRENCY_UNIT                   
-    , @SPECIAL_NOTES                   
-    , @REGION                          
-    , @INCOME_GROUP                    
-    , @WB_CODE                         
-    , @NATIONAL_ACCOUNT_BASE_YEAR      
-    , @NATIONAL_ACCOUNT_REFE_YEAR      
-    , @SNA_PRICE_VALUATION             
-    , @LENDING_CATEGORY                
-    , @OTHER_GROUPS                    
-    , @NATIONAL_ACCOUNTS               
-    , @CONVERSION_FACTOR               
-    , @PPP_SURVEY_YEAR                 
-    , @BALANCE_PAYMENT_MANUAL          
-    , @EXTERNAL_DEBT_STATUS            
-    , @SYSTEM_TRADE                    
-    , @ACCOUNTING_CONCEPT              
-    , @IMF_DATA                        
-    , @POPULATION_SENSUS               
-    , @HOUSEHOLD_SURVEY                
-    , @INCOME_EXPENDITURE_DATA         
-    , @REGISTRATION_COMPLETE          
-    , @AGRICULTURAL_CENSUS             
-    , @INDUSTRIAL_DATA                 
-    , @TRADE_DATA )
+    IF NOT EXISTS(SELECT 1
+                  FROM   tblWDI_COUNTRY tblCountry
+                  WHERE  tblCountry.COUNTRY_CODE = @COUNTRY_CODE)
+    BEGIN
+	   INSERT INTO tblWDI_COUNTRY
+	   ( COUNTRY_CODE                       
+       , SHORT_NAME                      
+       , TABLE_NAME                      
+       , LONG_NAME                       
+       , ALPHA_CODE                      
+       , CURRENCY_UNIT                   
+       , SPECIAL_NOTES                   
+       , REGION                          
+       , INCOME_GROUP                    
+       , WB_CODE                         
+       , NATIONAL_ACCOUNT_BASE_YEAR      
+       , NATIONAL_ACCOUNT_REFE_YEAR      
+       , SNA_PRICE_VALUATION             
+       , LENDING_CATEGORY                
+       , OTHER_GROUPS                    
+       , NATIONAL_ACCOUNTS               
+       , CONVERSION_FACTOR               
+       , PPP_SURVEY_YEAR                 
+       , BALANCE_PAYMENT_MANUAL          
+       , EXTERNAL_DEBT_STATUS            
+       , SYSTEM_TRADE                    
+       , ACCOUNTING_CONCEPT              
+       , IMF_DATA                        
+       , POPULATION_SENSUS               
+       , HOUSEHOLD_SURVEY                
+       , INCOME_EXPENDITURE_DATA         
+       , REGISTRATION_COMPLETE          
+       , AGRICULTURAL_CENSUS             
+       , INDUSTRIAL_DATA                 
+       , TRADE_DATA )
+	   VALUES 
+	   ( @COUNTRY_CODE                       
+       , @SHORT_NAME                      
+       , @TABLE_NAME                      
+       , @LONG_NAME                       
+       , @ALPHA_CODE                      
+       , @CURRENCY_UNIT                   
+       , @SPECIAL_NOTES                   
+       , @REGION                          
+       , @INCOME_GROUP                    
+       , @WB_CODE                         
+       , @NATIONAL_ACCOUNT_BASE_YEAR      
+       , @NATIONAL_ACCOUNT_REFE_YEAR      
+       , @SNA_PRICE_VALUATION             
+       , @LENDING_CATEGORY                
+       , @OTHER_GROUPS                    
+       , @NATIONAL_ACCOUNTS               
+       , @CONVERSION_FACTOR               
+       , @PPP_SURVEY_YEAR                 
+       , @BALANCE_PAYMENT_MANUAL          
+       , @EXTERNAL_DEBT_STATUS            
+       , @SYSTEM_TRADE                    
+       , @ACCOUNTING_CONCEPT              
+       , @IMF_DATA                        
+       , @POPULATION_SENSUS               
+       , @HOUSEHOLD_SURVEY                
+       , @INCOME_EXPENDITURE_DATA         
+       , @REGISTRATION_COMPLETE          
+       , @AGRICULTURAL_CENSUS             
+       , @INDUSTRIAL_DATA                 
+       , @TRADE_DATA )
+      
+       SET @COUNTRY_ID = SCOPE_IDENTITY()
 
+    END
 END TRY           
 BEGIN CATCH
 	DECLARE @ErrorMessage NVARCHAR(4000);  

@@ -4,12 +4,9 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using mcb.main.Model;
 using Common.Utility.Formatting;
 using mcb.main.Constants;
-using Common.Utility.Security;
 
 namespace mcb.main.Logic
 {
@@ -53,7 +50,7 @@ namespace mcb.main.Logic
 
         #region Private methods
 
-        /// <summary>Create a list of sql parameters from MRA settings model./summary>
+        /// <summary>Create a list of sql parameters from settings model./summary>
         /// <param name="objSettingModel"> Object  setting model.</param>
         /// <returns>List of sql parameters.</returns>
         private List<SqlParameter> CreateListParameters(clsSettingModel objSettingModel,
