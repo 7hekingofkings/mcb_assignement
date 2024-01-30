@@ -25,6 +25,7 @@ namespace Utilities.Scripts
         private const string sUD_WDI_TIME_SERIES = "udCreateWDITimeSeries.sql";
         private const string sUD_WDI_FOOT_NOTE = "udCreateWDIFootNoteTable.sql";
         private const string sUD_WDI_DATA = "udCreateWDIDataTable.sql";
+        private const string sUD_CORRUPTION = "udCreateCorruptionTable.sql";
 
         private const string sSP_SETTING = "spSetting.sql";
         private const string sSP_COUNTRY = "spCountry.sql";
@@ -33,10 +34,12 @@ namespace Utilities.Scripts
         private const string sSP_TIME_SERIES = "spTimeSeries.sql";
         private const string sSP_FOOT_NOTE = "spFootNote.sql";
         private const string sSP_DATA = "spData.sql";
+        private const string sSP_CORRUPTION = "spCorruption.sql";
 
 
         private const string sTT_FOOT_NOTE = "ttFootNote.sql";
         private const string sTT_DATA = "ttWDIData.sql";
+        private const string sTT_CORRUPTION = "ttCorruption.sql";
 
 
         #endregion
@@ -104,6 +107,15 @@ namespace Utilities.Scripts
 
             /// <summary>Create stored procedure for data</summary>
             iSP_DATA = 16,
+
+            /// <summary>Create corrption table.</summary>
+            iUD_CREATE_CORRUPTION_TABLE = 17,
+
+            /// <summary>Table type corruption.</summary>
+            iTT_CORRUPTION = 18,
+
+            /// <summary>Stored procedure for corruption index.</summary>
+            iSP_CORRUPTION = 20
         }
 
         #endregion
@@ -191,6 +203,12 @@ namespace Utilities.Scripts
                     return string.Format("{0}.{1}", sSTORED_PRODUCES_NAMESPACE, sTT_DATA);
                 case enuScripts.iSP_DATA:
                     return string.Format("{0}.{1}", sSTORED_PRODUCES_NAMESPACE, sSP_DATA);
+                case enuScripts.iUD_CREATE_CORRUPTION_TABLE:
+                    return string.Format("{0}.{1}", sUPDATE_SCRIPT_NAMESPACE, sUD_CORRUPTION);
+                case enuScripts.iTT_CORRUPTION:
+                    return string.Format("{0}.{1}", sSTORED_PRODUCES_NAMESPACE, sTT_CORRUPTION);
+                case enuScripts.iSP_CORRUPTION:
+                    return string.Format("{0}.{1}", sSTORED_PRODUCES_NAMESPACE, sSP_CORRUPTION);
                 default:
                     return string.Empty;
             }

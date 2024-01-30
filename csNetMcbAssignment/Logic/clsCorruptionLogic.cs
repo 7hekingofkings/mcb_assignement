@@ -5,11 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace mcb.main.Logic
 {
-    /// <summary>Save data to database.</summary>
-    public class clsDataLogic : IDisposable
+    /// <summary>Save corruption to database</summary>
+    public class clsCorruptionLogic :IDisposable
     {
         #region Private declarations
 
@@ -19,7 +22,7 @@ namespace mcb.main.Logic
         private enum enuStoredProcedureOperations
         {
             /// <summary>Save data.</summary>
-            iINSERTDATA = 0,
+            iINSERT = 0,
         }
 
         #endregion
@@ -36,7 +39,7 @@ namespace mcb.main.Logic
 
         /// <summary>Contructors.</summary>
         /// <param name="objConnection">Connection.</param>
-        public clsDataLogic(clsConnection objConnection)
+        public clsCorruptionLogic(clsConnection objConnection)
         {
             this.objConnection = objConnection;
         }
@@ -46,7 +49,7 @@ namespace mcb.main.Logic
         #region Private methods
 
         /// <summary>Create a list of sql parameters from time series model./summary>
-        /// <param name="dtbData">Foot note table.</param>
+        /// <param name="dtbData">Corruption table.</param>
         /// <returns>List of sql parameters.</returns>
         private List<SqlParameter> CreateListParameters(DataTable dtbData,
                                                         enuStoredProcedureOperations eOperationType)
@@ -55,7 +58,7 @@ namespace mcb.main.Logic
             {
                 new SqlParameter()
                 {
-                    ParameterName = clsStringFormatting.sConvertToSqlParameter(clsDataConstants.sDATA),
+                    ParameterName = clsStringFormatting.sConvertToSqlParameter(clsCorruptionConstants.sDATA),
                     SqlDbType = SqlDbType.Structured,
                     Value = dtbData,
                 },
@@ -88,9 +91,9 @@ namespace mcb.main.Logic
 
 
                 lstParameters = CreateListParameters(dtbData,
-                                                     enuStoredProcedureOperations.iINSERTDATA);
+                                                     enuStoredProcedureOperations.iINSERT);
 
-                objConnection.ExecuteStoredProcedureNonQuery(clsDataConstants.sDATA_STORED_PROCEDURE,
+                objConnection.ExecuteStoredProcedureNonQuery(clsCorruptionConstants.sCORRUPTION_STORED_PROCEDURE,
                                                              lstParameters);
             }
             finally

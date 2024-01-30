@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.3.0.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml.Framework, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.Framework.3.0.1\lib\net46\DocumentFormat.OpenXml.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -52,12 +58,14 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\clsEmbeddedResources.cs" />
     <Compile Include="Common\clsInfoExceptions.cs" />
     <Compile Include="Common\clsStringFormatting.cs" />
     <Compile Include="Constants\clsConstants.cs" />
+    <Compile Include="Constants\clsCorruptionConstants.cs" />
     <Compile Include="Constants\clsCountryConstants.cs" />
     <Compile Include="Constants\clsCountrySeriesConstants.cs" />
     <Compile Include="Constants\clsDataConstants.cs" />
@@ -90,6 +98,7 @@
     <Compile Include="Common\clsSecureString.cs" />
     <Compile Include="Common\clsSQLConnectionStringBuilder.cs" />
     <Compile Include="Common\clsTripleDESCryptography.cs" />
+    <Compile Include="Logic\clsCorruptionLogic.cs" />
     <Compile Include="Logic\clsCountryLogic.cs" />
     <Compile Include="Logic\clsCountrySeriesLogic.cs" />
     <Compile Include="Logic\clsDataLogic.cs" />
@@ -109,6 +118,9 @@
     <EmbeddedResource Include="Scripts\UpdateScripts\udCreateWDICountrySeriesTable.sql" />
     <EmbeddedResource Include="Scripts\StoredProcedures\spData.sql" />
     <EmbeddedResource Include="Scripts\StoredProcedures\ttWDIData.sql" />
+    <EmbeddedResource Include="Scripts\UpdateScripts\udCreateCorruptionTable.sql" />
+    <EmbeddedResource Include="Scripts\StoredProcedures\ttCorruption.sql" />
+    <Content Include="Scripts\StoredProcedures\spCorruption.sql" />
     <Content Include="Scripts\UpdateScripts\udCreateWDIDataTable.sql" />
     <Compile Include="Utlilities\clsScripts.cs" />
     <EmbeddedResource Include="Forms\frmConfiguration.resx">

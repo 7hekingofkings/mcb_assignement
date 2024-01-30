@@ -326,6 +326,22 @@ namespace csNetMcbAssignment.Forms
                                                                              sSQL_DELIMITER_GO_SPACE,
                                                                              sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
 
+                lstTables.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iUD_CREATE_CORRUPTION_TABLE)
+                                             .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                   sSQL_DELIMITER_GO_SPACE,
+                                                                   sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+                lstStoredProcedures.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iTT_CORRUPTION)
+                                                       .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                             sSQL_DELIMITER_GO_SPACE,
+                                                                             sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+                lstStoredProcedures.AddRange(objScripts.pGetScriptData(clsScripts.enuScripts.iSP_CORRUPTION)
+                                                      .Split(new string[] { sSQL_DEMILITER_GO_ENTER,
+                                                                             sSQL_DELIMITER_GO_SPACE,
+                                                                             sSQL_DELIMITER_GO_TAB}, StringSplitOptions.RemoveEmptyEntries));
+
+
                 objConnection.OpenConnection();
                 objConnection.BeginTransaction();
 

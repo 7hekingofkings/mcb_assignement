@@ -1,7 +1,10 @@
 ﻿using Common.Utility.Connection;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 using mcb.main.Model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -48,6 +51,150 @@ namespace mcb.main.Logic
         #endregion
 
         #region Private methods
+
+        /// <summary>Extract excel data to objects.</summary>
+        /// <param name="sFile">Filename.</param>
+        /// <param name="sImportedPath">Imported path.</param>
+        private void ExtractExclFile(string sFile, string sImportedPath)
+        {
+            // Declarations
+            clsCorruptionLogic objCorruptionLogic = null;
+            DataTable dtbData = null;
+            DataTable dtbExcel = null;
+            string sValue;
+            string sConcatValue = string.Empty;
+
+            try
+            {
+                // Initialisations
+                objCorruptionLogic = new clsCorruptionLogic(objConnection);
+                dtbExcel = new DataTable();
+                dtbData = new DataTable("DATA");
+                dtbData.Columns.Add("COUNTRY_NAME", typeof(string));
+                dtbData.Columns.Add("COUNTRY_CODE", typeof(string));
+                dtbData.Columns.Add("REGION", typeof(string));
+                dtbData.Columns.Add("YEARS", typeof(int));
+                dtbData.Columns.Add("CPI_SCORE", typeof(float));
+                dtbData.Columns.Add("RANKS", typeof(int));
+                dtbData.Columns.Add("SOURCES", typeof(float));
+                dtbData.Columns.Add("STANDARD_ERROR", typeof(float));
+                sValue = string.Empty;
+
+                using (SpreadsheetDocument objSpreadSheetDocument = SpreadsheetDocument.Open(sFile, false))
+                {
+                    WorkbookPart objWorkbookPart = objSpreadSheetDocument.WorkbookPart;
+                    SharedStringTablePart objSstpart = objWorkbookPart.GetPartsOfType<SharedStringTablePart>().First();
+                    SharedStringTable objSst = objSstpart.SharedStringTable;
+
+                    WorksheetPart objWorksheetPart = objWorkbookPart.WorksheetParts.First();
+                    Worksheet objSheet = objWorksheetPart.Worksheet;
+
+                    var rows = objSheet.Descendants<Row>();
+
+                    foreach (Row objRow in rows)
+                    {
+                        sConcatValue = string.Empty;
+                        foreach (Cell objCell in objRow.Elements<Cell>())
+                        {
+                            if ((objCell.DataType != null) && (objCell.DataType == CellValues.SharedString))
+                                sValue = objSst.ChildElements[int.Parse(objCell.CellValue.Text)]
+                                               .InnerText;
+                            else if (objCell.CellValue != null)
+                                sValue = objCell.CellValue.InnerText;
+
+                            if (objRow.RowIndex == 1)
+                                dtbExcel.TableName = sValue;
+
+                            if (objRow.RowIndex == 3)
+                                dtbExcel.Columns.Add(sValue);
+
+                            sConcatValue += sValue + ";";
+
+                        }
+
+                        if (objRow.RowIndex > 3)
+                        {
+                            sConcatValue = sConcatValue.Substring(0, sConcatValue.Length - 1);
+                            dtbExcel.Rows.Add(sConcatValue.Split(';').ToArray());
+                        }
+
+                    }
+                }
+
+                foreach (DataRow objRow in dtbExcel.Rows)
+                {
+                    for (int i = 3; i < 18; i += 4)
+                    {
+
+                        dtbData.Rows.Add(objRow[0]
+                                        , objRow[1]
+                                        , objRow[2]
+                                        , int.Parse(dtbExcel.Columns[i].ColumnName.Split(' ').Last())
+                                        , objRow[i]
+                                        , objRow[i + 1]
+                                        , objRow[i + 2]
+                                        , objRow[i + 3]);
+                    };
+
+                    for (int i = 19; i < dtbExcel.Columns.Count; i += 3)
+                    {
+
+                        dtbData.Rows.Add(objRow[0]
+                                        , objRow[1]
+                                        , objRow[2]
+                                        , int.Parse(dtbExcel.Columns[i].ColumnName.Split(' ').Last())
+                                        , objRow[i]
+                                        , 0
+                                        , objRow[i + 1]
+                                        , objRow[i + 2]);
+                    };
+                }
+
+                objConnection.BeginTransaction();
+                objConnection.niTimeOut = 10000;
+                objCorruptionLogic.InsertData(dtbData);
+                objConnection.CommitTransaction();
+
+
+                OnEvLogEvent(new clsMessageEventsArgs()
+                {
+                    sMessage = "Import has completed successfully.",
+                    dtEventDateTime = DateTime.Now
+                });
+
+            }
+            catch (Exception e)
+            {
+                objConnection.RollBackTransaction();
+                OnEvLogEvent(new clsMessageEventsArgs()
+                {
+                    sMessage = e.Message,
+                    dtEventDateTime = DateTime.Now,
+                });
+            }
+            finally
+            {
+                if (dtbData != null)
+                {
+                    dtbData.Clear();
+                    dtbData.Dispose();
+                    dtbData = null;
+                }
+
+                if (dtbExcel != null)
+                {
+                    dtbExcel.Clear();
+                    dtbExcel.Dispose();
+                    dtbExcel = null;
+                }
+
+                if (objCorruptionLogic != null)
+                {
+                    objCorruptionLogic.Dispose();
+                    objCorruptionLogic = null;
+                }
+            }
+        }
 
         /// <summary>Extract data to objects.</summary>
         /// <param name="sFile">Filename.</param>
@@ -163,15 +310,15 @@ namespace mcb.main.Logic
 
                     dicCurrent.Clear();
                     for (int i = 0; i < arrKey.Length; i++)
-                    {                    
+                    {
                         dicCurrent.Add(arrKey[i], arrSeriesDetails[i]);
                     }
                     lstDicData.Add(dicCurrent);
                 }
 
-                foreach (Dictionary<string,string> DicItem in lstDicData)
+                foreach (Dictionary<string, string> DicItem in lstDicData)
                 {
-                    foreach (KeyValuePair<string,string> item in DicItem)
+                    foreach (KeyValuePair<string, string> item in DicItem)
                     {
                         if (item.Key == "Country Name" ||
                             item.Key == "Country Code" ||
@@ -955,9 +1102,14 @@ namespace mcb.main.Logic
                         continue;
 
                     if (Path.GetExtension(sfile)
-                               .ToLower()
-                               .Equals(".csv"))
+                            .ToLower()
+                            .Equals(".csv"))
                         ExtractCsvFile(sfile, objSettingModel.sImportedPath);
+
+                    if (Path.GetExtension(sfile)
+                            .ToLower()
+                            .Equals(".xlsx"))
+                        ExtractExclFile(sfile, objSettingModel.sImportedPath);
 
                 }
             }
